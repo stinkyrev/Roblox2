@@ -1,0 +1,224 @@
+-- MUST BE NEAR THE BANK
+
+if game.PlaceId == 7239319209 then
+local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Birdy Hub | ".. GameName, "Ocean")
+
+local Player = game.Players.LocalPlayer
+
+local Main = Window:NewTab("Main")
+local MainFeatures = Main:NewSection("Main Features")
+
+function noclip() if Player.Character ~= nil then for _, child in pairs(Player.Character:GetDescendants()) do if child:IsA("BasePart") and child.CanCollide == true then child.CanCollide = false end end end end
+
+MainFeatures:NewToggle("ATM Autofarm", "Teleports you to ATMs", function(state)
+	local ATMFarming = false
+    if state then
+        local ATMFarming = true
+        while ATMFarming == true do
+        	for i,v in pairs(game:GetService("Workspace").Game.Props.ATM:GetChildren()) do
+        		Player.Character.HumanoidRootPart.CFrame = v["Meshes/Export_Cube.002_Cube.003_Material.002"].CFrame
+        		wait(10)
+        		continue
+			end
+			wait()
+		end
+    else
+        ATMFarming = false
+    end
+end)
+MainFeatures:NewToggle("Noclip", "Allows you to walk through objects", function(state)
+    if state then
+		Noclipping = game:GetService('RunService').Stepped:Connect(noclip)
+    else
+        Noclipping:Disconnect()
+    end
+end)
+MainFeatures:NewButton("Autocollect Money", "Collects the Money for you", function()
+	local CurrentPosition = Player.Character.HumanoidRootPart.CFrame
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(1055.94165, 5.80823851, -344.61377, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+	wait(0.5)
+	fireproximityprompt(game:GetService("Workspace").BankRobbery.BankCash.Main.Attachment.ProximityPrompt)
+	wait(1)
+	Player.Character.HumanoidRootPart.CFrame = CurrentPosition
+end)
+MainFeatures:NewSlider("Walkspeed", "Changes your Walkspeed", 250, 16, function(Value)
+	Player.Character.Humanoid.WalkSpeed = Value
+end)
+MainFeatures:NewKeybind("Safe Spot Quick Tp", "Teleports you to Safe Spot 1 when F pressed", Enum.KeyCode.F, function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(935.916259765625, 6.010374069213867, -707.4244995117188)
+end)
+
+
+
+local Teleports = Window:NewTab("Teleports")
+local PlayerTP = Teleports:NewSection("Player Teleports")
+
+PlayerTP:NewTextBox("Goto Player", "Teleports you to the Player entered", function(txt)
+	Player.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(txt).Character.HumanoidRootPart.CFrame
+end)
+PlayerTP:NewButton("Bank Vault", "Teleports to Bank Vault", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(1055.94165, 5.80823851, -344.61377, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+end)
+PlayerTP:NewButton("Bank", "Teleports to Bank", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(1084.9769287109375, 8.143768310546875, -390.2666320800781)
+end)
+PlayerTP:NewButton("Front of Bank", "Teleports to Infront of Bank", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(1085.687255859375, 6.019363880157471, -462.7671203613281)
+end)
+PlayerTP:NewButton("Armory", "Teleports to Armory", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(673.1348876953125, 6.252922534942627, -682.5554809570312)
+end)
+PlayerTP:NewButton("Gas Station", "Teleports to Gas Station", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(1081.454345703125, 6.268490314483643, -659.7909545898438)
+end)
+PlayerTP:NewButton("Phone Store", "Teleports to Phone Store", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(850.0279541015625, 6.229434013366699, -1045.95947265625)
+end)
+PlayerTP:NewButton("Restaurant", "Teleports to Restaurant", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(470.1087646484375, 6.284644603729248, -819.5471801757812)
+end)
+PlayerTP:NewButton("Pizza Store", "Teleports to Pizza Store", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(308.67987060546875, 8.173974990844727, -890.076171875)
+end)
+PlayerTP:NewButton("Clothing Store", "Teleports to Clothing Store", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(606.9382934570312, 6.254402160644531, -1052.551513671875)
+end)
+PlayerTP:NewButton("Prison", "Teleports to Prison", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(812.9412841796875, 24.723966598510742, -1533.92724609375)
+end)
+PlayerTP:NewButton("Safe Spot", "Teleports to Safe Spot 1", function()
+	Player.Character.HumanoidRootPart.CFrame = CFrame.new(935.916259765625, 6.010374069213867, -707.4244995117188)
+end)
+
+
+local Autobuy = Window:NewTab("Autobuy")
+local AutobuyGuns = Autobuy:NewSection("Autobuy Guns / Ammo")
+local AutobuyMisc = Autobuy:NewSection("Autobuy Vests / Grenades")
+local AutobuyFood = Autobuy:NewSection("Autobuy Food / Heals")
+
+AutobuyGuns:NewButton("M1911 $200", "Teleports you to M1911 then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.M1911.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("Glock $300", "Teleports you to Glock then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Glock.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("Uzi $900", "Teleports you to Uzi then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Uzi.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("Glock 18 $1000", "Teleports you to Glock 18 then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["Glock 18"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("Mossberg $1200", "Teleports you to Mossberg then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Mossberg.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("AR15 $2700", "Teleports you to AR15 then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["AR-15"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("AK47 $3000", "Teleports you to AK47 then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["AK-47"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("Tommy Gun $3500", "Teleports you to Tommy Gun then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["Tommy Gun"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyGuns:NewButton("RPG $10000", "Teleports you to RPG then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.RPG.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+
+AutobuyMisc:NewButton("Knife $50", "Teleports you to Knife then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Knife.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyMisc:NewButton("Spiked Baseball Bat $50", "Teleports you to SBB then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["Spiked Baseball Bat"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyMisc:NewButton("C4 $500", "Teleports you to C4 then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["C4"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyMisc:NewButton("Frag Grenade $200", "Teleports you to Frag Grenade then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Frag.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyMisc:NewButton("Smoke Grenade $100", "Teleports you to Smoke Grenade then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Smoke.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyMisc:NewButton("Light Vest $100", "Teleports you to Light Vest then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["Light Vest"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyMisc:NewButton("Military Vest $3500", "Teleports you to Military Vest then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale["Military Vest"].Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyFood:NewButton("Chicken $30", "Teleports you to Chicken then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Chicken.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyFood:NewButton("Greasy Cheese $30", "Teleports you to Pizza then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Pizza.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+AutobuyFood:NewButton("Burger $30", "Teleports you to Burger then Back", function()
+	for i = -3, 3 do --loops 6 times.
+		fireclickdetector(game:GetService("Workspace").ItemsOnSale.Burger.Button.ClickDetector)
+		wait(0.25)
+	end
+end)
+
+
+
+local Settings = Window:NewTab("Settings")
+local Configuration = Settings:NewSection("Configuration")
+Configuration:NewKeybind("Open / Minimize", "Keybind to toggle the GUI", Enum.KeyCode.LeftAlt, function()
+	Library:ToggleUI()
+end)
+end
